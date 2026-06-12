@@ -303,47 +303,25 @@ const TOPIC_COLORS = {
 };
 const GRADE_COLORS = {P1:"var(--red)",P2:"var(--orange)",P3:"var(--green)",P4:"var(--teal)",P5:"var(--blue)",P6:"var(--purple)"};
 const ADMIN_PASSWORD = "keitsz2026";
-const STORE_KEY = "english-etools-hub-v1";
+const API = "/api/resources";
 
-const SEED = [
-  {id:"s1",title:"Phonics Frog Jump 🐸",creator:"Miss Wong",grade:"P1",topic:"Phonics & Spelling",
-   url:"https://example.com/phonics-frog-jump",desc:"Help the frog hop across the pond by choosing the right beginning sounds. Great for warm-ups!",
-   tags:["game","sounds"]},
-  {id:"s2",title:"Word Wizard Flashcards 🪄",creator:"Mr. Lee",grade:"P2",topic:"Vocabulary",
-   url:"https://example.com/word-wizard",desc:"Magical flashcards with pictures and audio. Pupils flip, listen and match words about school and family.",
-   tags:["flashcards","audio"]},
-  {id:"s3",title:"Tense Time Machine ⏰",creator:"Miss Chan",grade:"P4",topic:"Grammar",
-   url:"https://example.com/tense-time-machine",desc:"Travel to the past, present and future! Choose the correct verb form to power the time machine.",
-   tags:["quiz","past tense","interactive"]},
-  {id:"s4",title:"Sentence Builder Blocks 🧱",creator:"Mr. Ho",grade:"P3",topic:"Sentence Writing",
-   url:"https://example.com/sentence-blocks",desc:"Drag word blocks to build super sentences with subjects, verbs and objects. Three challenge levels!",
-   tags:["drag-and-drop","challenge"]},
-  {id:"s5",title:"Reading Rocket 🚀",creator:"Miss Cheung",grade:"P5",topic:"Reading",
-   url:"https://example.com/reading-rocket",desc:"Short fun stories with comprehension questions. Answer correctly to launch the rocket higher!",
-   tags:["stories","comprehension"]},
-  {id:"s6",title:"Listening Lab 🎧",creator:"Mr. Lam",grade:"P4",topic:"Listening",
-   url:"https://example.com/listening-lab",desc:"Listen to short dialogues and click the right pictures. Includes exam-style listening practice.",
-   tags:["audio","exam practice"]},
-  {id:"s7",title:"Speaking Star Stage 🎤",creator:"Miss Wong",grade:"P6",topic:"Speaking & Chants",
-   url:"https://example.com/speaking-star",desc:"Record yourself reading aloud and earn shining stars. Perfect for speaking exam preparation.",
-   tags:["recording","stars"]},
-  {id:"s8",title:"Spelling Bee Challenge 🐝",creator:"Mr. Lee",grade:"P5",topic:"Quizzes & Games",
-   url:"https://example.com/spelling-bee",desc:"Beat the buzzer! Spell the words you hear before the bee flies away. Class leaderboard included.",
-   tags:["game","timer","leaderboard"]}
-];
-
-let resources = load();
+let resources = [];
 let isAdmin = false;
+let adminPass = "";
+let loading = true;
 
-function load(){
+async function loadResources(){
+  loading = true;
   try{
-    const raw = localStorage.getItem(STORE_KEY);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  localStorage.setItem(STORE_KEY, JSON.stringify(SEED));
-  return [...SEED];
+    const res = await fetch(API);
+    if(!res.ok) throw new Error();
+    resources = (await res.json()).resources || [];
+  }catch(e){
+    toast("⚠️ Could not load e-tools — please refresh!");
+  }
+  loading = false;
+  render();
 }
-function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(resources)); }
 
 function fillTopicSelects(){
   const browse = document.getElementById("filter-topic");
@@ -360,11 +338,11 @@ function render(){
   const q = document.getElementById("filter-search").value.trim().toLowerCase();
   const list = resources.filter(r =>
     (!g || r.grade===g) && (!t || r.topic===t) &&
-    (!q || (r.title+" "+r.desc+" "+r.creator+" "+(r.tags||[]).join(" ")).toLowerCase().includes(q))
+    (!q || (r.title+" "+r.description+" "+r.creator+" "+(r.tags||[]).join(" ")).toLowerCase().includes(q))
   );
   document.getElementById("count-pill").textContent =
-    list.length + (list.length===1 ? " e-tool" : " e-tools");
-  document.getElementById("empty").style.display = list.length ? "none" : "block";
+    loading ? "Loading… ⏳" : list.length + (list.length===1 ? " e-tool" : " e-tools");
+  document.getElementById("empty").style.display = (list.length || loading) ? "none" : "block";
   document.getElementById("grid").innerHTML = list.map(r=>{
     const tc = TOPIC_COLORS[r.topic] || "var(--blue)";
     const gc = GRADE_COLORS[r.grade] || "var(--ink)";
@@ -377,7 +355,7 @@ function render(){
       </div>
       <h3>${esc(r.title)}</h3>
       <div class="creator">by ${esc(r.creator)}</div>
-      <p class="desc">${esc(r.desc)}</p>
+      <p class="desc">${esc(r.description)}</p>
       ${(r.tags&&r.tags.length)?`<div class="tags">${r.tags.map(x=>`<span class="tag">#${esc(x)}</span>`).join("")}</div>`:""}
       <a class="go" href="${esc(r.url)}" target="_blank" rel="noopener">▶️ Open &amp; Play</a>
     </div>`;
@@ -390,37 +368,53 @@ function showTab(name){
   document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active", b.dataset.tab===name));
 }
 
-function submitResource(e){
+async function submitResource(e){
   e.preventDefault();
-  const r = {
-    id: "r" + Date.now(),
+  const body = {
     title: document.getElementById("f-title").value.trim(),
     creator: document.getElementById("f-creator").value.trim(),
     grade: document.getElementById("f-grade").value,
     topic: document.getElementById("f-topic").value,
     url: document.getElementById("f-url").value.trim(),
-    desc: document.getElementById("f-desc").value.trim(),
+    description: document.getElementById("f-desc").value.trim(),
     tags: document.getElementById("f-tags").value.split(",").map(s=>s.trim()).filter(Boolean)
   };
-  resources.unshift(r);
-  save();
-  document.getElementById("submit-form").reset();
-  fillTopicSelects();
-  render();
-  showTab("browse");
-  toast("🎉 Hooray! Your e-tool is in the hub!");
+  const btn = document.querySelector("#submit-form .btn-big");
+  btn.disabled = true;
+  try{
+    const res = await fetch(API, {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(body)
+    });
+    if(!res.ok) throw new Error();
+    document.getElementById("submit-form").reset();
+    fillTopicSelects();
+    await loadResources();
+    showTab("browse");
+    toast("🎉 Hooray! Your e-tool is in the hub!");
+  }catch(err){
+    toast("⚠️ Could not save — please try again!");
+  }
+  btn.disabled = false;
   return false;
 }
 
-function deleteResource(id){
+async function deleteResource(id){
   if(!isAdmin) return;
   const r = resources.find(x=>x.id===id);
   if(!r) return;
-  if(confirm(`Really delete "${r.title}"?\nThis cannot be undone!`)){
-    resources = resources.filter(x=>x.id!==id);
-    save();
-    render();
+  if(!confirm(`Really delete "${r.title}"?\nThis cannot be undone!`)) return;
+  try{
+    const res = await fetch(`${API}/${encodeURIComponent(id)}`, {
+      method:"DELETE",
+      headers:{"X-Admin-Password": adminPass}
+    });
+    if(!res.ok) throw new Error();
+    await loadResources();
     toast("🗑️ e-Tool deleted.");
+  }catch(err){
+    toast("⚠️ Could not delete — please try again!");
   }
 }
 
@@ -428,6 +422,7 @@ function adminLogin(){
   const pass = document.getElementById("admin-pass").value;
   if(pass === ADMIN_PASSWORD){
     isAdmin = true;
+    adminPass = pass;
     document.body.classList.add("admin-mode");
     document.getElementById("admin-login").style.display = "none";
     document.getElementById("admin-panel").style.display = "block";
@@ -442,6 +437,7 @@ function adminLogin(){
 
 function adminLogout(){
   isAdmin = false;
+  adminPass = "";
   document.body.classList.remove("admin-mode");
   document.getElementById("admin-login").style.display = "block";
   document.getElementById("admin-panel").style.display = "none";
@@ -461,6 +457,7 @@ function toast(msg){
 
 fillTopicSelects();
 render();
+loadResources();
 </script>
 </body>
 </html>

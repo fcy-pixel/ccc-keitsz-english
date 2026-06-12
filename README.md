@@ -12,17 +12,25 @@ e-teaching tools — the English sibling of
 - ✨ **Share an e-Tool** — teachers submit a title, creator, grade, learning area, link, description and tags
 - 🔑 **Teacher Admin** — password-protected admin mode to delete e-tools (with confirmation)
 
-Pure static site (single `index.html`, no build step). e-Tools are stored in
-`localStorage` and seeded with sample tools.
+Static front-end (single `index.html`, no build step) + Cloudflare Pages
+Functions backed by a **D1 database**, so submitted e-tools are shared by
+everyone in real time.
+
+## API
+
+- `GET /api/resources` — list all e-tools
+- `POST /api/resources` — add an e-tool (JSON body)
+- `DELETE /api/resources/:id` — delete (requires `X-Admin-Password` header)
 
 ## Run locally
 
 ```sh
-npx serve public
+wrangler d1 execute english-etools --local --file=schema.sql
+wrangler pages dev
 ```
 
 ## Deploy to Cloudflare Pages
 
 ```sh
-wrangler pages deploy public --project-name=ccc-keitsz-english
+wrangler pages deploy
 ```
