@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Grammar Garden 🌈 CCC Kei Tsz Primary School English Grammar Resources</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌈</text></svg>">
+<title>English e-Tools Hub 🧰 CCC Kei Tsz Primary School</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧰</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Baloo+2:wght@500;600;700;800&family=Schoolbell&display=swap" rel="stylesheet">
@@ -173,17 +173,17 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
   <span class="floaty" style="top:16%;left:5%">✏️</span>
   <span class="floaty" style="top:62%;left:6%;animation-delay:1s">📚</span>
   <span class="floaty" style="top:18%;right:6%;animation-delay:.5s">⭐</span>
-  <span class="floaty" style="top:64%;right:5%;animation-delay:1.6s">🔤</span>
-  <div class="logo-circle">🌈</div>
-  <h1>Grammar Garden</h1>
-  <div class="school">CCC Kei Tsz Primary School · English Grammar Resources</div>
-  <div class="tagline">Fun interactive grammar games &amp; lessons made by our teachers! 🎉</div>
+  <span class="floaty" style="top:64%;right:5%;animation-delay:1.6s">💻</span>
+  <div class="logo-circle">🧰</div>
+  <h1>English e-Tools Hub</h1>
+  <div class="school">CCC Kei Tsz Primary School · English Department</div>
+  <div class="tagline">A treasure box of interactive e-teaching tools made by our teachers! 🎉</div>
   <div class="scallop"></div>
 </header>
 
 <nav>
-  <button data-tab="browse" class="active" onclick="showTab('browse')">🔍 Browse Resources</button>
-  <button data-tab="submit" onclick="showTab('submit')">✨ Share a Resource</button>
+  <button data-tab="browse" class="active" onclick="showTab('browse')">🔍 Browse e-Tools</button>
+  <button data-tab="submit" onclick="showTab('submit')">✨ Share an e-Tool</button>
   <button data-tab="admin" onclick="showTab('admin')">🔑 Teacher Admin</button>
 </nav>
 
@@ -201,31 +201,31 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
         </select>
       </div>
       <div class="field">
-        <label>📖 Grammar Topic</label>
+        <label>📖 Learning Area</label>
         <select id="filter-topic" onchange="render()"></select>
       </div>
       <div class="field">
         <label>🔎 Search</label>
         <input id="filter-search" type="text" placeholder="Type to search…" oninput="render()">
       </div>
-      <div class="count-pill" id="count-pill">0 resources</div>
+      <div class="count-pill" id="count-pill">0 e-tools</div>
     </div>
     <div id="grid" class="grid"></div>
     <div id="empty" class="empty" style="display:none">
       <span class="big">🐝</span>
-      Oops! No resources match yet.<br>Try different filters, or share one yourself!
+      Oops! No e-tools match yet.<br>Try different filters, or share one yourself!
     </div>
   </section>
 
   <!-- ============ SUBMIT ============ -->
   <section id="tab-submit" class="tab">
     <div class="form-card">
-      <h2>✨ Share a Grammar Resource</h2>
-      <p class="hint">Made something fun with Vibe Coding? Add it to the garden so everyone can play and learn!</p>
+      <h2>✨ Share an e-Teaching Tool</h2>
+      <p class="hint">Made a fun e-tool with Vibe Coding? Add it to the hub so every class can use it!</p>
       <form id="submit-form" onsubmit="return submitResource(event)">
         <div class="form-group">
-          <label>📛 Resource Title *</label>
-          <input id="f-title" required maxlength="80" placeholder="e.g. Past Tense Treasure Hunt">
+          <label>📛 e-Tool Title *</label>
+          <input id="f-title" required maxlength="80" placeholder="e.g. Phonics Frog Jump">
         </div>
         <div class="form-group">
           <label>🧑‍🏫 Creator (Teacher's Name) *</label>
@@ -241,7 +241,7 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
             </select>
           </div>
           <div class="form-group">
-            <label>📖 Grammar Topic *</label>
+            <label>📖 Learning Area *</label>
             <select id="f-topic" required></select>
           </div>
         </div>
@@ -257,7 +257,7 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
           <label>🏷️ Tags (optional, separated by commas)</label>
           <input id="f-tags" placeholder="e.g. game, quiz, drag-and-drop">
         </div>
-        <button type="submit" class="btn-big">🚀 Add to the Garden!</button>
+        <button type="submit" class="btn-big">🚀 Add to the Hub!</button>
       </form>
     </div>
   </section>
@@ -268,7 +268,7 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
       <div class="lock" id="lock-icon">🔒</div>
       <h2 id="admin-title">Teacher Admin</h2>
       <div id="admin-login">
-        <p class="hint" style="margin-bottom:16px">Enter the teacher password to manage resources.</p>
+        <p class="hint" style="margin-bottom:16px">Enter the teacher password to manage e-tools.</p>
         <div class="form-group">
           <input id="admin-pass" type="password" placeholder="Password…" onkeydown="if(event.key==='Enter')adminLogin()">
         </div>
@@ -277,7 +277,7 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
       <div id="admin-panel" style="display:none">
         <div class="admin-on">
           ✅ <b>Admin mode is ON.</b><br>
-          Go to <b>Browse Resources</b> — every card now has a ❌ button to delete it (with confirmation).
+          Go to <b>Browse e-Tools</b> — every card now has a ❌ button to delete it (with confirmation).
         </div>
         <button class="btn-big btn-red" style="margin-top:16px" onclick="adminLogout()">🔒 Lock &amp; Exit Admin</button>
       </div>
@@ -292,46 +292,44 @@ footer{text-align:center; padding:26px; font-family:'Schoolbell',cursive; font-s
 
 <script>
 const TOPICS = [
-  "Nouns & Plurals","Pronouns","Verbs & Tenses","Adjectives","Adverbs",
-  "Prepositions","Articles (a / an / the)","Conjunctions","Question Words",
-  "Sentence Building","Punctuation","There is / There are"
+  "Phonics & Spelling","Vocabulary","Grammar","Sentence Writing","Reading",
+  "Listening","Speaking & Chants","Songs & Rhymes","Quizzes & Games","Festivals & Culture"
 ];
 const TOPIC_COLORS = {
-  "Nouns & Plurals":"var(--red)","Pronouns":"var(--orange)","Verbs & Tenses":"var(--green)",
-  "Adjectives":"var(--pink)","Adverbs":"var(--teal)","Prepositions":"var(--blue)",
-  "Articles (a / an / the)":"var(--purple)","Conjunctions":"var(--orange)",
-  "Question Words":"var(--teal)","Sentence Building":"var(--blue)",
-  "Punctuation":"var(--red)","There is / There are":"var(--green)"
+  "Phonics & Spelling":"var(--red)","Vocabulary":"var(--orange)","Grammar":"var(--green)",
+  "Sentence Writing":"var(--blue)","Reading":"var(--purple)","Listening":"var(--teal)",
+  "Speaking & Chants":"var(--pink)","Songs & Rhymes":"var(--orange)",
+  "Quizzes & Games":"var(--blue)","Festivals & Culture":"var(--red)"
 };
 const GRADE_COLORS = {P1:"var(--red)",P2:"var(--orange)",P3:"var(--green)",P4:"var(--teal)",P5:"var(--blue)",P6:"var(--purple)"};
 const ADMIN_PASSWORD = "keitsz2026";
-const STORE_KEY = "grammar-garden-resources-v1";
+const STORE_KEY = "english-etools-hub-v1";
 
 const SEED = [
-  {id:"s1",title:"Plural Penguins 🐧",creator:"Miss Wong",grade:"P1",topic:"Nouns & Plurals",
-   url:"https://example.com/plural-penguins",desc:"Help the penguins sort singular and plural nouns into the right igloos! A drag-and-drop game for beginners.",
-   tags:["game","drag-and-drop"]},
-  {id:"s2",title:"Tense Time Machine ⏰",creator:"Mr. Lee",grade:"P4",topic:"Verbs & Tenses",
+  {id:"s1",title:"Phonics Frog Jump 🐸",creator:"Miss Wong",grade:"P1",topic:"Phonics & Spelling",
+   url:"https://example.com/phonics-frog-jump",desc:"Help the frog hop across the pond by choosing the right beginning sounds. Great for warm-ups!",
+   tags:["game","sounds"]},
+  {id:"s2",title:"Word Wizard Flashcards 🪄",creator:"Mr. Lee",grade:"P2",topic:"Vocabulary",
+   url:"https://example.com/word-wizard",desc:"Magical flashcards with pictures and audio. Pupils flip, listen and match words about school and family.",
+   tags:["flashcards","audio"]},
+  {id:"s3",title:"Tense Time Machine ⏰",creator:"Miss Chan",grade:"P4",topic:"Grammar",
    url:"https://example.com/tense-time-machine",desc:"Travel to the past, present and future! Choose the correct verb form to power the time machine.",
    tags:["quiz","past tense","interactive"]},
-  {id:"s3",title:"Adjective Art Gallery 🎨",creator:"Miss Chan",grade:"P3",topic:"Adjectives",
-   url:"https://example.com/adjective-art",desc:"Describe funny paintings using colourful adjectives. Pupils pick the best describing words to win stars.",
-   tags:["vocabulary","stars"]},
-  {id:"s4",title:"Preposition Playground 🛝",creator:"Mr. Ho",grade:"P2",topic:"Prepositions",
-   url:"https://example.com/preposition-playground",desc:"Where is the cat? On, in, under or behind? Click the right preposition to find all the hidden animals.",
-   tags:["game","pictures"]},
-  {id:"s5",title:"a / an / the Detective 🕵️",creator:"Miss Cheung",grade:"P3",topic:"Articles (a / an / the)",
-   url:"https://example.com/article-detective",desc:"Solve article mysteries! Fill in a, an or the to crack each case and earn detective badges.",
-   tags:["quiz","badges"]},
-  {id:"s6",title:"Question Word Quiz Show ❓",creator:"Mr. Lam",grade:"P5",topic:"Question Words",
-   url:"https://example.com/question-quiz-show",desc:"Who? What? When? Where? Why? How? Be the quiz show champion by matching question words to answers.",
-   tags:["quiz","team play"]},
-  {id:"s7",title:"Sentence Builder Blocks 🧱",creator:"Miss Wong",grade:"P6",topic:"Sentence Building",
+  {id:"s4",title:"Sentence Builder Blocks 🧱",creator:"Mr. Ho",grade:"P3",topic:"Sentence Writing",
    url:"https://example.com/sentence-blocks",desc:"Drag word blocks to build super sentences with subjects, verbs and objects. Three challenge levels!",
    tags:["drag-and-drop","challenge"]},
-  {id:"s8",title:"Punctuation Power-Up 💥",creator:"Mr. Lee",grade:"P5",topic:"Punctuation",
-   url:"https://example.com/punctuation-powerup",desc:"Zap the missing full stops, commas and question marks before the timer runs out!",
-   tags:["game","timer"]}
+  {id:"s5",title:"Reading Rocket 🚀",creator:"Miss Cheung",grade:"P5",topic:"Reading",
+   url:"https://example.com/reading-rocket",desc:"Short fun stories with comprehension questions. Answer correctly to launch the rocket higher!",
+   tags:["stories","comprehension"]},
+  {id:"s6",title:"Listening Lab 🎧",creator:"Mr. Lam",grade:"P4",topic:"Listening",
+   url:"https://example.com/listening-lab",desc:"Listen to short dialogues and click the right pictures. Includes exam-style listening practice.",
+   tags:["audio","exam practice"]},
+  {id:"s7",title:"Speaking Star Stage 🎤",creator:"Miss Wong",grade:"P6",topic:"Speaking & Chants",
+   url:"https://example.com/speaking-star",desc:"Record yourself reading aloud and earn shining stars. Perfect for speaking exam preparation.",
+   tags:["recording","stars"]},
+  {id:"s8",title:"Spelling Bee Challenge 🐝",creator:"Mr. Lee",grade:"P5",topic:"Quizzes & Games",
+   url:"https://example.com/spelling-bee",desc:"Beat the buzzer! Spell the words you hear before the bee flies away. Class leaderboard included.",
+   tags:["game","timer","leaderboard"]}
 ];
 
 let resources = load();
@@ -349,9 +347,9 @@ function save(){ localStorage.setItem(STORE_KEY, JSON.stringify(resources)); }
 
 function fillTopicSelects(){
   const browse = document.getElementById("filter-topic");
-  browse.innerHTML = '<option value="">All Topics</option>' + TOPICS.map(t=>`<option>${t}</option>`).join("");
+  browse.innerHTML = '<option value="">All Areas</option>' + TOPICS.map(t=>`<option>${t}</option>`).join("");
   const form = document.getElementById("f-topic");
-  form.innerHTML = '<option value="" disabled selected>Choose topic…</option>' + TOPICS.map(t=>`<option>${t}</option>`).join("");
+  form.innerHTML = '<option value="" disabled selected>Choose area…</option>' + TOPICS.map(t=>`<option>${t}</option>`).join("");
 }
 
 function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
@@ -365,7 +363,7 @@ function render(){
     (!q || (r.title+" "+r.desc+" "+r.creator+" "+(r.tags||[]).join(" ")).toLowerCase().includes(q))
   );
   document.getElementById("count-pill").textContent =
-    list.length + (list.length===1 ? " resource" : " resources");
+    list.length + (list.length===1 ? " e-tool" : " e-tools");
   document.getElementById("empty").style.display = list.length ? "none" : "block";
   document.getElementById("grid").innerHTML = list.map(r=>{
     const tc = TOPIC_COLORS[r.topic] || "var(--blue)";
@@ -410,7 +408,7 @@ function submitResource(e){
   fillTopicSelects();
   render();
   showTab("browse");
-  toast("🎉 Hooray! Your resource is in the garden!");
+  toast("🎉 Hooray! Your e-tool is in the hub!");
   return false;
 }
 
@@ -422,7 +420,7 @@ function deleteResource(id){
     resources = resources.filter(x=>x.id!==id);
     save();
     render();
-    toast("🗑️ Resource deleted.");
+    toast("🗑️ e-Tool deleted.");
   }
 }
 
