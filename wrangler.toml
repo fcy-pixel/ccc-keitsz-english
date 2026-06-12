@@ -8,4 +8,4 @@ database_name = "english-etools"
 database_id = "ebc786ea-f275-4627-a729-f1bfb6f593ae"
 
 [vars]
-ADMIN_PASSWORD = "keitsz2026"
+ADMIN_PASSWORD = "admin"

@@ -196,6 +196,7 @@ textarea{resize:vertical; min-height:90px}
         <label>🎒 Grade Level</label>
         <select id="filter-grade" onchange="render()">
           <option value="">All Grades</option>
+          <option value="P1-P6">🌟 General (P1–P6)</option>
           <option>P1</option><option>P2</option><option>P3</option>
           <option>P4</option><option>P5</option><option>P6</option>
         </select>
@@ -236,6 +237,7 @@ textarea{resize:vertical; min-height:90px}
             <label>🎒 Grade Level *</label>
             <select id="f-grade" required>
               <option value="" disabled selected>Choose grade…</option>
+              <option value="P1-P6">🌟 General (P1–P6)</option>
               <option>P1</option><option>P2</option><option>P3</option>
               <option>P4</option><option>P5</option><option>P6</option>
             </select>
@@ -300,8 +302,8 @@ const TOPIC_COLORS = {
   "Speaking & Chants":"var(--pink)","Songs & Rhymes":"var(--orange)",
   "Quizzes & Games":"var(--blue)","Festivals & Culture":"var(--red)"
 };
-const GRADE_COLORS = {P1:"var(--red)",P2:"var(--orange)",P3:"var(--green)",P4:"var(--teal)",P5:"var(--blue)",P6:"var(--purple)"};
-const ADMIN_PASSWORD = "keitsz2026";
+const GRADE_COLORS = {P1:"var(--red)",P2:"var(--orange)",P3:"var(--green)",P4:"var(--teal)",P5:"var(--blue)",P6:"var(--purple)","P1-P6":"var(--pink)"};
+const ADMIN_PASSWORD = "admin";
 const API = "/api/resources";
 
 let resources = [];
@@ -336,7 +338,7 @@ function render(){
   const t = document.getElementById("filter-topic").value;
   const q = document.getElementById("filter-search").value.trim().toLowerCase();
   const list = resources.filter(r =>
-    (!g || r.grade===g) && (!t || r.topic===t) &&
+    (!g || r.grade===g || (g!=="P1-P6" && r.grade==="P1-P6")) && (!t || r.topic===t) &&
     (!q || (r.title+" "+r.description+" "+r.creator+" "+(r.tags||[]).join(" ")).toLowerCase().includes(q))
   );
   document.getElementById("count-pill").textContent =

@@ -22,12 +22,15 @@ export async function onRequestPost({ request, env }) {
   }
   const title = str(b.title, 80);
   const creator = str(b.creator, 40);
-  const grade = str(b.grade, 4);
+  const grade = str(b.grade, 8);
   const topic = str(b.topic, 40);
   const url = str(b.url, 500);
   const description = str(b.description, 200);
   if (!title || !creator || !grade || !topic || !url || !description) {
     return err("Missing required fields", 400);
+  }
+  if (!["P1", "P2", "P3", "P4", "P5", "P6", "P1-P6"].includes(grade)) {
+    return err("Invalid grade", 400);
   }
   if (!/^https?:\/\//i.test(url)) {
     return err("URL must start with http:// or https://", 400);
